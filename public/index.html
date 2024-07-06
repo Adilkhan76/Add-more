@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Add More Fields</title>
+  <script>
+    function addField() {
+      const container = document.getElementById('inputContainer');
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.name = 'fields[]';
+      input.placeholder="Enter Name";
+      container.appendChild(input);
+    }
+  </script>
+</head>
+<body>
+  <form id="myForm" action="/save" method="post">
+    <div id="inputContainer">
+      <input type="text" name="fields[]" placeholder="Enter Name">
+    </div>
+    <button type="button" onclick="addField()">Add more</button>
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>
