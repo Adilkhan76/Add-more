@@ -1,56 +1,63 @@
-/* General form styling */
-#myForm {
-    width: 300px;
-    margin: 20px auto;
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+  }
+
+  form {
+    max-width: 600px;
+    margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
+    background: #fff;
     border-radius: 8px;
-    background-color: #f9f9f9;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+  }
 
-/* Styling for the input container */
-#inputContainer {
-    margin-bottom: 20px;
-}
+  .input-group {
+    margin-bottom: 15px;
+  }
 
-/* Styling for the input fields */
-#inputContainer input[type="text"] {
-    width: calc(100% - 22px);
+  .input-group input {
+    width: calc(100% - 20px);
     padding: 10px;
-    margin-bottom: 10px;
+    margin: 0;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 16px;
     box-sizing: border-box;
-}
+  }
 
-/* Styling for buttons */
-button {
-    display: inline-block;
-    padding: 10px 15px;
-    margin-right: 10px;
+  .input-group input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+
+  .buttonGroup {
+    text-align: center;
+  }
+
+  .buttonGroup button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
     border: none;
     border-radius: 4px;
-    background-color: #007bff;
-    color: #fff;
     cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-}
+    background-color: #007bff;
+    color: white;
+  }
 
-button:hover {
+  .buttonGroup button:hover {
     background-color: #0056b3;
-}
+  }
 
-button:focus {
-    outline: none;
-}
-
-/* Specific styling for the "Add more" button */
-button[type="button"] {
-    background-color: #28a745;
-}
-
-button[type="button"]:hover {
-    background-color: #218838;
-}
+  .buttonGroup submit{
+    background-color: darkgreen;
+    
+  }

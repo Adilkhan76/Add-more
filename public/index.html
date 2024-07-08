@@ -3,26 +3,143 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
   <title>Add More Fields</title>
+  <link rel="stylesheet" href="style.css">
+  
   <script>
-    function addField() {
+    function addField(type) {
       const container = document.getElementById('inputContainer');
-      const input = document.createElement('input');
-      input.type = 'text';
-      input.name = 'fields[]';
-      input.placeholder="Enter Name";
-      container.appendChild(input);
+      
+      const inputDiv = document.createElement('div');
+      inputDiv.classList.add('input-group');
+      
+      let input = document.createElement('input');
+      input.type = type;
+
+      switch (type) {
+        case 'text':
+          input.name = 'fields[name][]';
+          input.placeholder = 'Enter Name';
+          break;
+        case 'email':
+          input.name = 'fields[email][]';
+          input.placeholder = 'Enter Email';
+          break;
+        case 'tel':
+          input.name = 'fields[phone][]';
+          input.placeholder = 'Enter Phone';
+          break;
+        case 'password':
+          input.name = 'fields[password][]';
+          input.placeholder = 'Enter Password';
+          break;
+      }
+
+      // Attach validation on input event
+      input.addEventListener('input', function() {
+        validateInput(input);
+      });
+
+      inputDiv.appendChild(input);
+      
+      // Create error message container
+      const errorContainer = document.createElement('div');
+      errorContainer.classList.add('error-message');
+      inputDiv.appendChild(errorContainer);
+
+      container.appendChild(inputDiv);
+
+      // Initially validate the newly added input
+      validateInput(input);
     }
+
+    function validateInput(input) {
+      const errorContainer = input.parentElement.querySelector('.error-message');
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const phonePattern = /^\d{10}$/;  // Simple pattern for 10-digit phone numbers
+      const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+
+      if (input.value.trim() === '') {
+        input.style.borderColor = 'red';
+        errorContainer.innerText = 'This field is required.';
+        return false;
+      } else {
+        input.style.borderColor = '';
+        errorContainer.innerText = '';
+      }
+
+      if (input.type === 'email' && !emailPattern.test(input.value)) {
+        input.style.borderColor = 'red';
+        errorContainer.innerText = 'Please enter a valid email address.';
+        return false;
+      }
+
+      if (input.type === 'tel' && !phonePattern.test(input.value)) {
+        input.style.borderColor = 'red';
+        errorContainer.innerText = 'Please enter a valid 10-digit phone number.';
+        return false;
+      }
+
+      if (input.type === 'password' && !passwordPattern.test(input.value)) {
+        input.style.borderColor = 'red';
+        errorContainer.innerText = 'Password must be at least 6 characters long and include letters, numbers, and special characters.';
+        return false;
+      }
+
+      return true;
+    }
+
+    function validateForm(event) {
+      const inputs = document.querySelectorAll('#inputContainer input[name^="fields"]');
+      let valid = true;
+
+      inputs.forEach(input => {
+        if (!validateInput(input)) {
+          valid = false;
+        }
+      });
+
+      if (!valid) {
+        event.preventDefault();
+        event.stopPropagation(); // Stop propagation of the event to prevent form submission
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('myForm');
+      form.addEventListener('submit', validateForm);
+    });
+
   </script>
 </head>
 <body>
   <form id="myForm" action="/save" method="post">
     <div id="inputContainer">
-      <input type="text" name="fields[]" placeholder="Enter Name">
+      <!-- Initial fields -->
+      <div class="input-group">
+        <input type="text" name="fields[name][]" placeholder="Enter Name">
+        <div class="error-message"></div>
+      </div>
+      <div class="input-group">
+        <input type="email" name="fields[email][]" placeholder="Enter Email">
+        <div class="error-message"></div>
+      </div>
+      <div class="input-group">
+        <input type="tel" name="fields[phone][]" placeholder="Enter Phone">
+        <div class="error-message"></div>
+      </div>
+      <div class="input-group">
+        <input type="password" name="fields[password][]" placeholder="Enter Password">
+        <div class="error-message"></div>
+      </div>
     </div>
-    <button type="button" onclick="addField()">Add more</button>
-    <button type="submit">Submit</button>
+    <div class="buttonGroup">
+      <button type="button" onclick="addField('text')">Add more Name</button>
+      <button type="button" onclick="addField('email')">Add more Email</button>
+      <button type="button" onclick="addField('tel')">Add more Phone</button>
+      <button type="button" onclick="addField('password')">Add more Password</button>
+      <button type="submit">Submit</button>
+    </div>
   </form>
 </body>
 </html>
